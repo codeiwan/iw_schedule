@@ -1,0 +1,73 @@
+<style>
+  .navbar {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+  }
+
+  .navbar a:hover {
+    text-decoration: underline;
+  }
+
+  .nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-right form {
+    margin: 0;
+  }
+
+  .nav-right button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .nav-right button:hover {
+    background-color: #777;
+  }
+
+  .nav-right {
+    margin-right: 35px; /* 오른쪽 여백 추가 */
+  }
+
+  body {
+    padding-top: 60px; /* 내비게이션 바 높이만큼 여백 추가 */
+  }
+</style>
+
+
+<div class="navbar">
+  <div class="nav-left">
+    <!-- 왼쪽에 내용 추가 가능 -->
+  </div>
+  <div class="nav-right">
+    {% if username %}
+      <span>👤 {{ username }}</span>
+      <form action="/logout" method="post">
+        <button type="submit">로그아웃</button>
+      </form>
+    {% else %}
+      <a href="/login">🔐 로그인</a>
+    {% endif %}
+  </div>
+</div>

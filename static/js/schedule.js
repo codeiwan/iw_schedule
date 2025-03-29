@@ -85,4 +85,71 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("녹음 취소 오류:", error);
     }
   });
+
+
+  // 달력 기능 추가
+  const today = new Date();
+  let currentMonth = today.getMonth();
+  let currentYear = today.getFullYear();
+
+  const monthYear = document.getElementById("month-year");
+  const calendarDays = document.getElementById("calendar-days");
+
+  const months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+
+  function showCalendar(month, year) {
+    const firstDay = new Date(year, month).getDay();  // 월의 첫 번째 날의 요일 (0: 일요일, 6: 토요일)
+    const daysInMonth = 32 - new Date(year, month, 32).getDate();  // 해당 월의 총 일수
+
+    calendarDays.innerHTML = "";
+
+    // 제목 설정 (YYYY년 MM월)
+    monthYear.textContent = `${year}년 ${months[month]}`;
+
+    let date = 1;
+    for (let i = 0; i < 6; i++) {
+      const row = document.createElement("tr");
+
+      for (let j = 0; j < 7; j++) {
+        if (i === 0 && j < firstDay) {
+          // 첫 번째 주에서 빈 칸 추가
+          const cell = document.createElement("td");
+          cell.innerHTML = "";
+          row.appendChild(cell);
+        } else if (date > daysInMonth) {
+          // 해당 월의 마지막 날짜를 넘으면 중단
+          break;
+        } else {
+          // 날짜 채우기
+          const cell = document.createElement("td");
+          cell.textContent = date;
+
+          // 오늘 날짜 강조
+          if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
+            cell.classList.add("bg-warning");
+          }
+
+          row.appendChild(cell);
+          date++;
+        }
+      }
+
+      calendarDays.appendChild(row);
+    }
+  }
+
+  document.getElementById("prev-month").addEventListener("click", function() {
+    currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+    currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+    showCalendar(currentMonth, currentYear);
+  });
+
+  document.getElementById("next-month").addEventListener("click", function() {
+    currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+    currentMonth = (currentMonth + 1) % 12;
+    showCalendar(currentMonth, currentYear);
+  });
+
+  // 페이지 로드 시 달력 표시
+  showCalendar(currentMonth, currentYear);
 });

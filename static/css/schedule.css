@@ -101,3 +101,67 @@
 .cancelButton:hover {
   background-color: #da190b; /* 취소 버튼 hover 효과 */
 }
+
+
+h2 {
+  margin-bottom: 20px;
+}
+
+#schedule-body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#calendar {
+  width: 100%;
+  max-width: 600px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+#calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+}
+
+#calendar-body {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#calendar-body th {
+  background-color: #f8f9fa;
+  padding: 10px;
+}
+
+#calendar-body td {
+  width: 14.28%;
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#calendar-body td:hover {
+  background-color: #e9ecef;
+}
+
+/* 오늘 날짜 강조 */
+.bg-warning {
+  background-color: #ffc107 !important;
+  color: white;
+  border-radius: 50%;
+}

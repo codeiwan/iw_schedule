@@ -21,6 +21,9 @@ class LoginRequest(BaseModel):
 # 로그인 페이지 렌더링 (GET 요청)
 @router.get("/login")
 def login(request: Request):
+    username = request.session.get("username")
+    if username:
+        return RedirectResponse(url="/schedule", status_code=303)
     return templates.TemplateResponse("login.html", {"request": request})
 
 # 로그인 처리 (POST 요청)
@@ -46,8 +49,8 @@ def login(request: Request, login_request: Annotated[LoginRequest, Form()]):
         }
     )
 
-# 로그아웃 처리 (GET 요청)
-@router.get("/logout")
+# 로그아웃 처리 (POST 요청)
+@router.post("/logout")
 def logout(request: Request):
     # 세션에서 사용자 정보 삭제
     if "username" in request.session:
