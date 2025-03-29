@@ -113,9 +113,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // STT 분석 요청
   analyzeRecordingButton.addEventListener('click', async () => {
     try {
-      const response = await fetch('/stt', { method: 'POST' });
+      const response = await fetch('/stt_llm', { method: 'POST' });
       const data = await response.json();
-      sttResult.textContent = `분석 결과: ${data.text}`;
+      sttResult.textContent = `분석 결과: ${data.result.title}`;
     } catch (error) {
       console.error("STT 분석 오류", error);
       sttResult.textContent = "분석 실패!";
