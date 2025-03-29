@@ -4,10 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Schedule</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='css/schedule.css') }}">
+  <script src="{{ url_for('static', path='js/schedule.js') }}" defer></script>
 </head>
 <body>
   <h1>스케줄 페이지</h1>
   <p>안녕하세요, {{ username }}님!</p>
   <a href="/logout">로그아웃</a>
+
+  <!-- 녹음 버튼 -->
+  <button id="recordButton">녹음하기</button>
+
+  <!-- 녹음 모달 -->
+  <div id="recordingModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <h2>녹음 컨트롤</h2>
+      <div id="recordingStatus" class="recordingStatus">🎤 대기 중...</div>
+      <div class="recordingControls">
+        <button id="startRecordingButton" class="recordingButton">▶️ 녹음 시작</button>
+        <button id="stopRecordingButton" class="recordingButton" disabled>■ 녹음 종료</button>
+        <button id="cancelRecordingButton" class="cancelButton" disabled>❌ 취소</button>
+    </div>
+  </div>
 </body>
 </html>

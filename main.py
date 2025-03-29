@@ -2,10 +2,11 @@ import json
 
 from fastapi import FastAPI, Request
 from starlette.middleware.sessions import SessionMiddleware
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 
-from routes import login, signup, schedule  # 추가된 라우트 파일
+from routes import login, signup, schedule, recorder  # 추가된 라우트 파일
 from pathlib import Path
 
 app = FastAPI()
@@ -15,6 +16,9 @@ app.add_middleware(SessionMiddleware, secret_key="very-secret-key")
 
 # Jinja2 템플릿 연결
 templates = Jinja2Templates(directory="templates")
+
+# static 파일을 '/static' 경로로 서빙
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # 데이터베이스 경로 설정
 DB_PATH = Path("database/users.json")
@@ -36,3 +40,4 @@ async def root(request: Request):
 app.include_router(login.router)
 app.include_router(signup.router)
 app.include_router(schedule.router)
+app.include_router(recorder.router)
