@@ -45,6 +45,15 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (error) {
       console.error("녹음 취소 오류:", error);
     }
+    // 모달 초기화
+    recordingStatus.textContent = '대기 중...';
+    recordingStatus.classList.remove('recording');
+    sttResult.textContent = '';
+    startRecordingButton.disabled = false;
+    stopRecordingButton.disabled = true;
+    cancelRecordingButton.disabled = true;
+    analyzeRecordingButton.disabled = true;
+    updateButtonVisibility();
     recordingModal.style.display = 'none';
   });
 
@@ -123,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch('/stt_llm', { method: 'POST' });
       const data = await response.json();
 
-      console.log("📢 서버 응답 데이터:", data);  // 응답 구조 확인
+      console.log("서버 응답 데이터:", data);  // 응답 구조 확인
 
       // 결과가 정상적으로 왔는지 확인
       if (data.result) {
@@ -137,9 +146,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // 모달 변경
         const modalTitleEl = document.querySelector("#recordingControls h2"); // 녹음 컨트롤 제목 찾기
         if (modalTitleEl) {
-          modalTitleEl.textContent = "일정 등록"; // 🎯 "녹음 컨트롤" → "일정 등록" 변경
+          modalTitleEl.textContent = "일정 등록"; // "녹음 컨트롤" → "일정 등록" 변경
         } else {
-            console.error("❌ 제목 요소를 찾을 수 없습니다.");
+            console.error("제목 요소를 찾을 수 없습니다.");
         }
         document.getElementById("recordingControls").style.display = "none"; // 녹음 UI 숨기기
         document.getElementById("scheduleForm").style.display = "block"; // 일정 등록 UI 보이기
@@ -152,11 +161,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // 돌아가기 버튼 → 다시 녹음 모달로 변경
-  document.getElementById("backToRecordingButton").addEventListener("click", () => {
-    document.getElementById("modalTitle").textContent = "녹음 컨트롤"; // 제목 복구
-    document.getElementById("recordingControls").style.display = "block"; // 녹음 UI 보이기
-    document.getElementById("scheduleForm").style.display = "none"; // 일정 등록 UI 숨기기
+  const backToRecordingButton = document.getElementById('backToRecordingButton');
+
+  // 돌아가기 버튼 클릭 시 초기화
+  backToRecordingButton.addEventListener('click', () => {
+    recordingStatus.textContent = '대기 중...';
+    recordingStatus.classList.remove('recording');
+    sttResult.textContent = '';
+    startRecordingButton.disabled = false;
+    stopRecordingButton.disabled = true;
+    cancelRecordingButton.disabled = true;
+    analyzeRecordingButton.disabled = true;
+    updateButtonVisibility();
+    // 일정 등록 모달 숨기기
+    document.getElementById('scheduleForm').style.display = 'none';
+    // 녹음 컨트롤 모달 표시하기
+    document.getElementById('recordingControls').style.display = 'block';
   });
 
   // 적용하기 버튼 → 일정 저장 로직 추가 가능 (현재는 콘솔 출력)
@@ -167,8 +187,8 @@ document.addEventListener("DOMContentLoaded", function () {
         content: document.getElementById("scheduleContent").textContent
     };
 
-    console.log("📅 일정이 저장됨:", schedule);
-    alert("✅ 일정이 저장되었습니다!");
+    console.log("일정이 저장됨:", schedule);
+    alert("일정이 저장되었습니다!");
 
     // 모달 닫기 (필요하면 추가)
     document.getElementById("recordingModal").style.display = "none";
