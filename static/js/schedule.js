@@ -181,11 +181,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 적용하기 버튼 → 일정 저장 로직 추가 가능 (현재는 콘솔 출력)
   document.getElementById("applyScheduleButton").addEventListener("click", async (event) => {
-    // const schedule = {
-    //   date: document.getElementById("scheduleDate").textContent,
-    //   title: document.getElementById("scheduleTitle").textContent,
-    //   content: document.getElementById("scheduleContent").textContent
-    // };
     event.preventDefault(); // 기본 제출 동작 방지
     const date = document.getElementById("scheduleDate").textContent;
     const title = document.getElementById("scheduleTitle").textContent;
@@ -214,6 +209,15 @@ document.addEventListener("DOMContentLoaded", function () {
       const result = await response.json();
       console.log('일정 추가 결과:', result);
       alert("일정이 저장되었습니다!");
+      // 모달 초기화
+      recordingStatus.textContent = '대기 중...';
+      recordingStatus.classList.remove('recording');
+      sttResult.textContent = '';
+      startRecordingButton.disabled = false;
+      stopRecordingButton.disabled = true;
+      cancelRecordingButton.disabled = true;
+      analyzeRecordingButton.disabled = true;
+      recordingModal.style.display = 'none';
     } catch (error) {
       console.error('일정 추가 중 오류 발생:', error);
     }
