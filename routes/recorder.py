@@ -52,11 +52,11 @@ def llm():
 
 @router.post("/stt_llm")
 def stt_llm():
-    # audio_file_path = os.path.join(os.getcwd(), 'audio.wav')
-    # text_result = speech_to_text(audio_file_path)
-    # client = OpenAI(api_key=api_key)
-    # schedule_result = generate_schedule_response(client, text_result)
+    audio_file_path = os.path.join(os.getcwd(), 'audio.wav')
+    text_result = speech_to_text(audio_file_path)
+    client = OpenAI(api_key=api_key)
+    schedule_result = generate_schedule_response(client, text_result)
 
-    schedule_result = {'date': '2025-03-31', 'title': '비행기 탑승 일정', 'content': '아침 일곱 시에 미국행 비행기를 탑니다.'}
+    # schedule_result = {'date': '2025-03-31', 'title': '비행기 탑승 일정', 'content': '아침 일곱 시에 미국행 비행기를 탑니다.'}
     print("📢 응답 데이터:", schedule_result) 
     return JSONResponse(content={"result": schedule_result}, status_code=200)
