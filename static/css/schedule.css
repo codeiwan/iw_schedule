@@ -259,3 +259,41 @@ h2 {
 #addScheduleModal button[type='submit']:hover {
   background-color: #45a049;
 }
+
+.applyButton {
+  background-color: #4CAF50; /* 초록색 배경 */
+  color: white; /* 흰색 글자 */
+  border: none; /* 테두리 없음 */
+  padding: 10px 20px; /* 패딩 */
+  text-align: center; /* 중앙 정렬 */
+  text-decoration: none; /* 밑줄 없음 */
+  display: inline-block; /* 인라인 블록 */
+  font-size: 16px; /* 글자 크기 */
+  margin: 4px 2px; /* 마진 */
+  cursor: pointer; /* 커서 포인터 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  transition: background-color 0.3s; /* 배경색 전환 효과 */
+}
+
+.applyButton:hover {
+  background-color: #45a049; /* 호버 시 배경색 변화 */
+}
+
+.beforeButton {
+  background-color: #f44336; /* 빨간색색 배경 */
+  color: white; /* 흰색 글자 */
+  border: none; /* 테두리 없음 */
+  padding: 10px 20px; /* 패딩 */
+  text-align: center; /* 중앙 정렬 */
+  text-decoration: none; /* 밑줄 없음 */
+  display: inline-block; /* 인라인 블록 */
+  font-size: 16px; /* 글자 크기 */
+  margin: 4px 2px; /* 마진 */
+  cursor: pointer; /* 커서 포인터 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  transition: background-color 0.3s; /* 배경색 전환 효과 */
+}
+
+.beforeButton:hover {
+  background-color: #da190b; /* 호버 시 배경색 변화 */
+}

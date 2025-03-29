@@ -115,11 +115,56 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const response = await fetch('/stt_llm', { method: 'POST' });
       const data = await response.json();
-      sttResult.textContent = `분석 결과: ${data.result.title}`;
+
+      console.log("📢 서버 응답 데이터:", data);  // 응답 구조 확인
+
+      // 결과가 정상적으로 왔는지 확인
+      if (data.result) {
+        const { date, title, content } = data.result;
+
+        // 일정 등록 UI에 값 삽입
+        document.getElementById("scheduleDate").textContent = date;
+        document.getElementById("scheduleTitle").textContent = title;
+        document.getElementById("scheduleContent").textContent = content;
+
+        // 모달 변경
+        const modalTitleEl = document.querySelector("#recordingControls h2"); // 녹음 컨트롤 제목 찾기
+        if (modalTitleEl) {
+          modalTitleEl.textContent = "일정 등록"; // 🎯 "녹음 컨트롤" → "일정 등록" 변경
+        } else {
+            console.error("❌ 제목 요소를 찾을 수 없습니다.");
+        }
+        document.getElementById("recordingControls").style.display = "none"; // 녹음 UI 숨기기
+        document.getElementById("scheduleForm").style.display = "block"; // 일정 등록 UI 보이기
+      } else {
+        sttResult.textContent = "분석 실패: 결과 없음";
+      }
     } catch (error) {
       console.error("STT 분석 오류", error);
       sttResult.textContent = "분석 실패!";
     }
+  });
+
+  // 돌아가기 버튼 → 다시 녹음 모달로 변경
+  document.getElementById("backToRecordingButton").addEventListener("click", () => {
+    document.getElementById("modalTitle").textContent = "녹음 컨트롤"; // 제목 복구
+    document.getElementById("recordingControls").style.display = "block"; // 녹음 UI 보이기
+    document.getElementById("scheduleForm").style.display = "none"; // 일정 등록 UI 숨기기
+  });
+
+  // 적용하기 버튼 → 일정 저장 로직 추가 가능 (현재는 콘솔 출력)
+  document.getElementById("applyScheduleButton").addEventListener("click", () => {
+    const schedule = {
+        date: document.getElementById("scheduleDate").textContent,
+        title: document.getElementById("scheduleTitle").textContent,
+        content: document.getElementById("scheduleContent").textContent
+    };
+
+    console.log("📅 일정이 저장됨:", schedule);
+    alert("✅ 일정이 저장되었습니다!");
+
+    // 모달 닫기 (필요하면 추가)
+    document.getElementById("recordingModal").style.display = "none";
   });
 
   // 일정 보기 버튼 클릭 시, 사용자 일정 페이지로 이동
