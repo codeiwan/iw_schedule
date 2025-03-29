@@ -180,18 +180,43 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // 적용하기 버튼 → 일정 저장 로직 추가 가능 (현재는 콘솔 출력)
-  document.getElementById("applyScheduleButton").addEventListener("click", () => {
-    const schedule = {
-        date: document.getElementById("scheduleDate").textContent,
-        title: document.getElementById("scheduleTitle").textContent,
-        content: document.getElementById("scheduleContent").textContent
+  document.getElementById("applyScheduleButton").addEventListener("click", async (event) => {
+    // const schedule = {
+    //   date: document.getElementById("scheduleDate").textContent,
+    //   title: document.getElementById("scheduleTitle").textContent,
+    //   content: document.getElementById("scheduleContent").textContent
+    // };
+    event.preventDefault(); // 기본 제출 동작 방지
+    const date = document.getElementById("scheduleDate").textContent;
+    const title = document.getElementById("scheduleTitle").textContent;
+    const content = document.getElementById("scheduleContent").textContent;
+
+    const requestData = {
+      username: username,
+      date: date,
+      title: title,
+      content: content
     };
 
-    console.log("일정이 저장됨:", schedule);
-    alert("일정이 저장되었습니다!");
+    try {
+      const response = await fetch('/add_schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+      });
 
-    // 모달 닫기 (필요하면 추가)
-    document.getElementById("recordingModal").style.display = "none";
+      if (!response.ok) {
+        throw new Error('네트워크 응답이 좋지 않습니다.');
+      }
+      
+      const result = await response.json();
+      console.log('일정 추가 결과:', result);
+      alert("일정이 저장되었습니다!");
+    } catch (error) {
+      console.error('일정 추가 중 오류 발생:', error);
+    }
   });
 
   // 일정 보기 버튼 클릭 시, 사용자 일정 페이지로 이동
@@ -218,34 +243,34 @@ document.addEventListener("DOMContentLoaded", function () {
     const content = document.getElementById('scheduleContent').value;
 
     const requestData = {
-        username: username,
-        date: date,
-        title: title,
-        content: content
+      username: username,
+      date: date,
+      title: title,
+      content: content
     };
 
     try {
-        const response = await fetch('/add_schedule', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
-        });
+      const response = await fetch('/add_schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+      });
 
-        if (!response.ok) {
-            throw new Error('네트워크 응답이 좋지 않습니다.');
-        }
+      if (!response.ok) {
+        throw new Error('네트워크 응답이 좋지 않습니다.');
+      }
 
-        const result = await response.json();
-        console.log('일정 추가 결과:', result);
-        // 모달 닫기 및 폼 초기화
-        addScheduleModal.style.display = 'none';
-        addScheduleForm.reset();
+      const result = await response.json();
+      console.log('일정 추가 결과:', result);
+      // 모달 닫기 및 폼 초기화
+      addScheduleModal.style.display = 'none';
+      addScheduleForm.reset();
     } catch (error) {
-        console.error('일정 추가 중 오류 발생:', error);
+      console.error('일정 추가 중 오류 발생:', error);
     }
-});
+  });
 
   // 달력 기능 추가
   const today = new Date();
