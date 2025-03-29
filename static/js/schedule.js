@@ -5,7 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const startRecordingButton = document.getElementById('startRecordingButton');
   const stopRecordingButton = document.getElementById('stopRecordingButton');
   const cancelRecordingButton = document.getElementById('cancelRecordingButton');
+  const analyzeRecordingButton = document.getElementById('analyzeRecordingButton'); // 분석 버튼
   const recordingStatus = document.getElementById('recordingStatus');
+  const sttResult = document.getElementById('sttResult'); // STT 결과
 
   // 모달 열기
   recordButton.addEventListener('click', async () => {
@@ -15,12 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("초기화 중 오류 발생:", error);
     }
     // 버튼 및 상태 초기화
-    recordingStatus.textContent = "🎤 대기 중...";
+    recordingStatus.textContent = "대기 중...";
     recordingStatus.classList.remove("recording");
+    sttResult.textContent = ""; // 이전 STT 결과 초기화
 
     startRecordingButton.disabled = false;
     stopRecordingButton.disabled = true;
     cancelRecordingButton.disabled = true;
+    analyzeRecordingButton.disabled = true; // 시작 시에는 분석 비활성화
 
     recordingModal.style.display = 'flex';
   });
@@ -41,12 +45,16 @@ document.addEventListener("DOMContentLoaded", function () {
       let response = await fetch('/start_record', { method: 'POST' });
       let data = await response.json();
 
-      recordingStatus.textContent = "🎤 녹음 중...";
+      recordingStatus.textContent = "녹음 중...";
       recordingStatus.classList.add("recording");
-
+      
+      // STT 결과를 빈 상태로 설정
+    sttResult.textContent = "";
+    
       startRecordingButton.disabled = true;
       stopRecordingButton.disabled = false;
       cancelRecordingButton.disabled = false;
+      analyzeRecordingButton.disabled = true; // 녹음 중에는 분석 비활성화
     } catch (error) {
       console.error("녹음 시작 오류:", error);
     }
@@ -58,12 +66,17 @@ document.addEventListener("DOMContentLoaded", function () {
       let response = await fetch('/stop_record', { method: 'POST' });
       let data = await response.json();
 
-      recordingStatus.textContent = "✅ 녹음 완료!";
+      recordingStatus.textContent = "녹음 완료!";
       recordingStatus.classList.remove("recording");
 
       startRecordingButton.disabled = false;
       stopRecordingButton.disabled = true;
       cancelRecordingButton.disabled = true;
+      
+      // 분석 버튼 활성화 및 스타일 변경
+      analyzeRecordingButton.disabled = false;
+      analyzeRecordingButton.classList.add("active");
+      console.log("분석 버튼 활성화됨");
 
     } catch (error) {
       console.error("녹음 종료 오류:", error);
@@ -75,14 +88,30 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       await fetch('/cancel_record', { method: 'POST' });
 
-      recordingStatus.textContent = "❌ 녹음 취소됨";
+      recordingStatus.textContent = "녹음 취소됨";
       recordingStatus.classList.remove("recording");
 
       startRecordingButton.disabled = false;
       stopRecordingButton.disabled = true;
       cancelRecordingButton.disabled = true;
+      
+      // 분석 버튼 비활성화 및 스타일 제거
+      analyzeRecordingButton.disabled = true;
+      analyzeRecordingButton.classList.remove("active");
     } catch (error) {
       console.error("녹음 취소 오류:", error);
+    }
+  });
+
+  // STT 분석 요청
+  analyzeRecordingButton.addEventListener('click', async () => {
+    try {
+      const response = await fetch('/stt', { method: 'POST' });
+      const data = await response.json();
+      sttResult.textContent = `분석 결과: ${data.text}`;
+    } catch (error) {
+      console.error("STT 분석 오류", error);
+      sttResult.textContent = "분석 실패!";
     }
   });
 

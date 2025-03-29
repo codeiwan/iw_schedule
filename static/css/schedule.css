@@ -69,6 +69,18 @@
 .cancelButton:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 분석하기 버튼 활성화 상태 */
+.recordingButton.active {
+  background-color: #2196F3; /* 파란색으로 변경 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+.recordingButton.active:hover {
+  background-color: #1976D2;
 }
 
 /* 녹음 상태 표시 */

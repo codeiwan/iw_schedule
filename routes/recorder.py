@@ -1,5 +1,8 @@
+import os
 from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 from utils.audio import AudioRecorder
+from utils.whisper import speech_to_text
 
 router = APIRouter()
 audio = AudioRecorder()
@@ -27,3 +30,9 @@ def cancel_record():
         return {"message": "현재 진행 중인 녹음이 없습니다."}
     audio.cancel_recording()
     return {"message": "녹음을 취소합니다."}
+
+@router.post("/stt")
+def stt():
+    audio_file_path = os.path.join(os.getcwd(), 'audio.wav')
+    text_result = speech_to_text(audio_file_path)
+    return JSONResponse(content={"text": text_result}, status_code=200)
