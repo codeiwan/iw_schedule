@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const recordingStatus = document.getElementById('recordingStatus');
   const sttResult = document.getElementById('sttResult'); // STT 결과
   
+  const addScheduleButton = document.getElementById('addScheduleButton');
+  const addScheduleModal = document.getElementById('addScheduleModal');
+  const closeAddScheduleModal = document.getElementById('closeAddScheduleModal');
+
   // 모달 열기
   recordButton.addEventListener('click', async () => {
     try {
@@ -115,6 +119,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // 일정 추가 모달 열기
+  addScheduleButton.addEventListener('click', () => {
+    addScheduleModal.style.display = 'flex';
+  });
+
+  // X 버튼 클릭 시 모달 닫기
+  closeAddScheduleModal.addEventListener('click', () => {
+    addScheduleModal.style.display = 'none';
+  });
 
   // 달력 기능 추가
   const today = new Date();

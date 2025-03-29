@@ -14,6 +14,9 @@
 
   <button id="viewScheduleButton">📅 일정 보기</button>
 
+  <!-- 일정 추가 버튼 -->
+  <button id="addScheduleButton">📅 일정 추가</button>
+
   <!-- 녹음 버튼 -->
   <button id="recordButton">녹음하기</button>
 
@@ -30,6 +33,26 @@
         <button id="analyzeRecordingButton" class="recordingButton" disabled>🔍 분석하기</button> <!-- 분석 버튼 추가 -->
       </div>
       <div id="sttResult" class="sttResult"></div> <!-- 분석 결과 표시 -->
+    </div>
+  </div>
+
+  <!-- 일정 추가 모달 -->
+  <div id="addScheduleModal" class="modal">
+    <div class="modal-content">
+      <span id="closeAddScheduleModal" class="close">&times;</span>
+      <h2>일정 등록</h2>
+      <form id="addScheduleForm">
+        <label for="scheduleDate">날짜:</label>
+        <input type="date" id="scheduleDate" name="scheduleDate" required>
+
+        <label for="scheduleTitle">제목:</label>
+        <input type="text" id="scheduleTitle" name="scheduleTitle" required>
+
+        <label for="scheduleContent">내용:</label>
+        <textarea id="scheduleContent" name="scheduleContent" required></textarea>
+
+        <button type="submit">등록</button>
+      </form>
     </div>
   </div>
 
