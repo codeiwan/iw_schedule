@@ -12,6 +12,8 @@
   <h1>스케줄 페이지</h1>
   <p>안녕하세요, {{ username }}님!</p>
 
+  <button id="viewScheduleButton">📅 일정 보기</button>
+
   <!-- 녹음 버튼 -->
   <button id="recordButton">녹음하기</button>
 
@@ -56,5 +58,13 @@
       </table>
     </div>
   </div>
+
+  <script>
+    // ✅ 일정 보기 버튼 클릭 시, 사용자 일정 페이지로 이동
+    document.getElementById("viewScheduleButton").addEventListener("click", function() {
+      const username = "{{ username }}";  // Jinja2에서 username 가져오기
+      window.location.href = `/schedule/${username}`;  // 해당 사용자 일정 페이지로 이동
+    });
+  </script>
 </body>
 </html>

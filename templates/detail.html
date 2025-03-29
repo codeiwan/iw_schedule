@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ username }}'s schedule</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  {% include "base.html" %}
+
+  <h1>{{ username }}님의 일정</h1>
+  <button onclick="window.location.href='/schedule'">뒤로가기</button>
+
+  {% if schedules %}
+    <table>
+      <thead>
+        <tr>
+          <th>날짜</th>
+          <th>제목</th>
+          <th>내용</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for schedule in schedules %}
+          <tr>
+            <td>{{ schedule.date }}</td>
+            <td>{{ schedule.title }}</td>
+            <td>{{ schedule.content }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>등록된 일정이 없습니다.</p>
+  {% endif %}
+</body>
+</html>

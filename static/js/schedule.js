@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const analyzeRecordingButton = document.getElementById('analyzeRecordingButton'); // 분석 버튼
   const recordingStatus = document.getElementById('recordingStatus');
   const sttResult = document.getElementById('sttResult'); // STT 결과
-
+  
   // 모달 열기
   recordButton.addEventListener('click', async () => {
     try {
