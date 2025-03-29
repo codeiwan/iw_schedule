@@ -33,6 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
     cancelRecordingButton.disabled = true;
     analyzeRecordingButton.disabled = true; // 시작 시에는 분석 비활성화
 
+    updateButtonVisibility();
+
     recordingModal.style.display = 'flex';
   });
 
@@ -62,6 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
       stopRecordingButton.disabled = false;
       cancelRecordingButton.disabled = false;
       analyzeRecordingButton.disabled = true; // 녹음 중에는 분석 비활성화
+
+      updateButtonVisibility();
     } catch (error) {
       console.error("녹음 시작 오류:", error);
     }
@@ -85,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
       analyzeRecordingButton.classList.add("active");
       console.log("분석 버튼 활성화됨");
 
+      updateButtonVisibility();
     } catch (error) {
       console.error("녹음 종료 오류:", error);
     }
@@ -105,6 +110,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // 분석 버튼 비활성화 및 스타일 제거
       analyzeRecordingButton.disabled = true;
       analyzeRecordingButton.classList.remove("active");
+
+      updateButtonVisibility();
     } catch (error) {
       console.error("녹음 취소 오류:", error);
     }
@@ -285,4 +292,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 페이지 로드 시 달력 표시
   showCalendar(currentMonth, currentYear);
+
+  const updateButtonVisibility = () => {
+    const buttons = [startRecordingButton, stopRecordingButton, analyzeRecordingButton, cancelRecordingButton];
+    buttons.forEach(button => {
+      if (button.disabled) {
+        button.style.display = 'none';
+      } else {
+        button.style.display = 'inline-block';
+      }
+    });
+  };
+
+  updateButtonVisibility();
 });
