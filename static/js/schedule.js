@@ -9,9 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const recordingStatus = document.getElementById('recordingStatus');
   const sttResult = document.getElementById('sttResult'); // STT 결과
   
+  const viewScheduleButton = document.getElementById("viewScheduleButton");
   const addScheduleButton = document.getElementById('addScheduleButton');
+  const username = viewScheduleButton.getAttribute("data-username");
   const addScheduleModal = document.getElementById('addScheduleModal');
   const closeAddScheduleModal = document.getElementById('closeAddScheduleModal');
+  const addScheduleForm = document.getElementById('addScheduleForm');
 
   // 모달 열기
   recordButton.addEventListener('click', async () => {
@@ -119,6 +122,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // 일정 보기 버튼 클릭 시, 사용자 일정 페이지로 이동
+  viewScheduleButton.addEventListener("click", function() {
+    window.location.href = `/schedule/${username}`;  // 해당 사용자 일정 페이지로 이동
+  });
+
   // 일정 추가 모달 열기
   addScheduleButton.addEventListener('click', () => {
     addScheduleModal.style.display = 'flex';
@@ -128,6 +136,44 @@ document.addEventListener("DOMContentLoaded", function () {
   closeAddScheduleModal.addEventListener('click', () => {
     addScheduleModal.style.display = 'none';
   });
+
+  // 일정 추가 모달에 기능 추가
+  addScheduleForm.addEventListener('submit', async (event) => {
+    event.preventDefault(); // 기본 제출 동작 방지
+
+    const date = document.getElementById('scheduleDate').value;
+    const title = document.getElementById('scheduleTitle').value;
+    const content = document.getElementById('scheduleContent').value;
+
+    const requestData = {
+        username: username,
+        date: date,
+        title: title,
+        content: content
+    };
+
+    try {
+        const response = await fetch('/add_schedule', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        if (!response.ok) {
+            throw new Error('네트워크 응답이 좋지 않습니다.');
+        }
+
+        const result = await response.json();
+        console.log('일정 추가 결과:', result);
+        // 모달 닫기 및 폼 초기화
+        addScheduleModal.style.display = 'none';
+        addScheduleForm.reset();
+    } catch (error) {
+        console.error('일정 추가 중 오류 발생:', error);
+    }
+});
 
   // 달력 기능 추가
   const today = new Date();
