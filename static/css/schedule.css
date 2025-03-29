@@ -114,6 +114,25 @@
   background-color: #da190b; /* 취소 버튼 hover 효과 */
 }
 
+#recordButton {
+  position: fixed;
+  right: 20px;
+  top: 100px;
+  padding: 15px 30px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+#recordButton:hover {
+  background-color: #0069d9;
+  transform: scale(1.05);
+}
 
 h2 {
   margin-bottom: 20px;
@@ -122,17 +141,18 @@ h2 {
 #schedule-body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: auto;
 }
 
 #calendar {
-  width: 100%;
-  max-width: 600px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 800px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -176,4 +196,12 @@ h2 {
   background-color: #ffc107 !important;
   color: white;
   border-radius: 50%;
+}
+
+.schedule-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
