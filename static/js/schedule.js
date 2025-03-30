@@ -242,9 +242,9 @@ document.addEventListener("DOMContentLoaded", function () {
   addScheduleForm.addEventListener('submit', async (event) => {
     event.preventDefault(); // 기본 제출 동작 방지
 
-    const date = document.getElementById('scheduleDate').value;
-    const title = document.getElementById('scheduleTitle').value;
-    const content = document.getElementById('scheduleContent').value;
+    const date = document.getElementById("addScheduleDate").value;
+    const title = document.getElementById("addScheduleTitle").value;
+    const content = document.getElementById("addScheduleContent").value;
 
     const requestData = {
       username: username,
@@ -269,8 +269,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const result = await response.json();
       console.log('일정 추가 결과:', result);
       // 모달 닫기 및 폼 초기화
-      addScheduleModal.style.display = 'none';
       addScheduleForm.reset();
+      addScheduleModal.style.display = 'none';
     } catch (error) {
       console.error('일정 추가 중 오류 발생:', error);
     }

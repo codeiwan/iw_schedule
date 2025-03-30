@@ -6,18 +6,34 @@
   <title>Schedule</title>
   <link rel="stylesheet" href="{{ url_for('static', path='css/schedule.css') }}">
   <script src="{{ url_for('static', path='js/schedule.js') }}" defer></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    p {
+      text-align: center;
+      font-size: 18px;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
   {% include "base.html" %}
   <h1>스케줄 페이지</h1>
   <p>안녕하세요, {{ username }}님!</p>
 
-  <button id="viewScheduleButton" data-username="{{ username }}">📅 일정 보기</button>
-
-  <button id="addScheduleButton" data-username="{{ username }}">📅 일정 추가</button>
-
-  <!-- 녹음 버튼 -->
-  <button id="recordButton">🎤 음성 추가</button>
+  <div style="text-align: center;">
+    <button id="viewScheduleButton" data-username="{{ username }}">📅 일정 보기</button>
+    <button id="addScheduleButton" data-username="{{ username }}">📅 일정 추가</button>
+    <button id="recordButton">🎤 음성 추가</button>
+  </div>
 
   <!-- 녹음 모달 -->
   <div id="recordingModal" class="modal">
@@ -57,14 +73,14 @@
       <span id="closeAddScheduleModal" class="close">&times;</span>
       <h2>일정 등록</h2>
       <form id="addScheduleForm">
-        <label for="scheduleDate">날짜:</label>
-        <input type="date" id="scheduleDate" name="scheduleDate" required>
+        <label for="addScheduleDate">날짜:</label>
+        <input type="date" id="addScheduleDate" name="addScheduleDate" required>
 
-        <label for="scheduleTitle">제목:</label>
-        <input type="text" id="scheduleTitle" name="scheduleTitle" required>
+        <label for="addScheduleTitle">제목:</label>
+        <input type="text" id="addScheduleTitle" name="addScheduleTitle" required>
 
-        <label for="scheduleContent">내용:</label>
-        <textarea id="scheduleContent" name="scheduleContent" required></textarea>
+        <label for="addScheduleContent">내용:</label>
+        <textarea id="addScheduleContent" name="addScheduleContent" required></textarea>
 
         <button type="submit">등록</button>
       </form>

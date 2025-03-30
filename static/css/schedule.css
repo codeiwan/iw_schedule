@@ -114,7 +114,7 @@
   background-color: #da190b; /* 취소 버튼 hover 효과 */
 }
 
-#recordButton {
+#recordButton, #viewScheduleButton, #addScheduleButton {
   padding: 10px 20px;
   background-color: transparent;
   color: #333;
@@ -124,7 +124,7 @@
   font-size: 16px;
 }
 
-#recordButton:hover {
+#recordButton:hover, #viewScheduleButton:hover, #addScheduleButton:hover {
   background-color: #f0f0f0;
   border-color: #0056b3;
 }
