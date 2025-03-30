@@ -5,10 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ username }}'s schedule</title>
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     th, td {
       padding: 12px;
@@ -17,15 +31,29 @@
     }
     th {
       background-color: #f4f4f4;
+      font-weight: bold;
     }
     tr:hover {
       background-color: #f9f9f9;
     }
+    button {
+      display: inline-block;
+      padding: 10px 12px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      position: absolute;
+      top: 42px;
+      left: 20px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
-  {% include "base.html" %}
-
   <h1>{{ username }}님의 일정</h1>
   <button onclick="window.location.href='/schedule'">뒤로가기</button>
 
