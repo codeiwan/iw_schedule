@@ -10,6 +10,7 @@ router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 SCHEDULE_PATH = Path("database/schedules.json")
+PRIMEKEY_DB_PATH = Path("database/primekey.json")
 
 """JSON 파일에서 일정 데이터 불러오기"""
 def load_schedules():
@@ -44,7 +45,24 @@ def get_schedule(username: str, request: Request):
 @router.post("/add_schedule")
 def add_schedule(schedule: ScheduleItem):
     schedules = load_schedules()
-    schedules.append(schedule.dict())
+
+    # PRIMEKEY_DB_PATH에서 schedule_id 값 읽기
+    with open(PRIMEKEY_DB_PATH, "r", encoding="utf-8") as file:
+        primekey_data = json.load(file)
+        
+    new_schedule = dict()
+    new_schedule["pk"] = primekey_data["schedule"]
+    new_schedule.update(schedule.dict())
+
+    schedules.append(new_schedule)
+
+    primekey_data["schedule"] += 1
+
+    # 변경된 schedule_id 값을 다시 파일에 저장
+    with open(PRIMEKEY_DB_PATH, "w", encoding="utf-8") as file:
+        json.dump(primekey_data, file, indent=4, ensure_ascii=False)
+
     with open(SCHEDULE_PATH, "w", encoding="utf-8") as file:
         json.dump(schedules, file, ensure_ascii=False, indent=4)
+
     return JSONResponse(content={"message": "일정이 추가되었습니다!"}, status_code=201)
