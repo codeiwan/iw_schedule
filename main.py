@@ -23,6 +23,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # 데이터베이스 경로 설정
 USER_DB_PATH = Path("database/users.json")
 SCHEDULE_DB_PATH = Path("database/schedules.json")
+PRIMEKEY_DB_PATH = Path("database/primekey.json")
 
 # 서버 시작 시 파일 체크 및 생성
 @app.on_event("startup")
@@ -34,6 +35,9 @@ def startup_event():
     if not SCHEDULE_DB_PATH.exists():
         with open(SCHEDULE_DB_PATH, "w", encoding="utf-8") as file:
             json.dump([], file, indent=4, ensure_ascii=False)
+    if not PRIMEKEY_DB_PATH.exists():
+        with open(PRIMEKEY_DB_PATH, "w", encoding="utf-8") as file:
+            json.dump({"user": 1, "schedule": 1}, file, indent=4, ensure_ascii=False)
 
 # index.html 렌더링
 @app.get("/", response_class=HTMLResponse)

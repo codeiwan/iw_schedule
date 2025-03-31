@@ -3,4 +3,5 @@ __pycache__
 .env
 users.json
 schedules.json
+primekey.json
 audio.wav

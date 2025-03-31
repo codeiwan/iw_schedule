@@ -12,6 +12,7 @@ templates = Jinja2Templates(directory="templates")
 
 # 데이터베이스 경로 설정
 DB_PATH = Path("database/users.json")
+PRIMEKEY_DB_PATH = Path("database/primekey.json")
 
 # 회원가입 요청 데이터 모델
 class SignupRequest(BaseModel):
@@ -40,10 +41,24 @@ def signup(request: Request, signup_request: Annotated[SignupRequest, Form()]):
                  "username": signup_request.username  # 회원가입 시 입력된 아이디를 유지
                 }
             )
-    
+        
+    # PRIMEKEY_DB_PATH에서 user_id 값 읽기
+    with open(PRIMEKEY_DB_PATH, "r", encoding="utf-8") as file:
+        primekey_data = json.load(file)
+        
     # 새로운 유저 추가
-    new_user = {"username": signup_request.username, "password": signup_request.password}
+    new_user = {
+        "pk": primekey_data["user"],
+        "username": signup_request.username,
+        "password": signup_request.password
+        }
     users.append(new_user)
+
+    primekey_data["user"] += 1  # user_id 증가
+
+    # 변경된 user_id 값을 다시 파일에 저장
+    with open(PRIMEKEY_DB_PATH, "w", encoding="utf-8") as file:
+        json.dump(primekey_data, file, indent=4, ensure_ascii=False)
 
     # 파일에 저장
     with open(DB_PATH, "w", encoding="utf-8") as file:
