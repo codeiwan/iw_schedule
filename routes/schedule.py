@@ -1,6 +1,6 @@
 import json
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, JSONResponse
 from pathlib import Path
@@ -66,3 +66,20 @@ def add_schedule(schedule: ScheduleItem):
         json.dump(schedules, file, ensure_ascii=False, indent=4)
 
     return JSONResponse(content={"message": "일정이 추가되었습니다!"}, status_code=201)
+
+# 일정 삭제
+@router.delete("/del_schedule")
+def del_schedule(pk: int):
+    schedules = load_schedules()
+    # pk 값을 가진 일정 찾기
+    new_schedules = [schedule for schedule in schedules if schedule["pk"] != pk]
+
+    # 일정이 삭제되지 않았다면 존재하지 않는 pk
+    if len(new_schedules) == len(schedules):
+        return JSONResponse(content={"message": "잘못 된 삭제 경로입니다."}, status_code=404)
+    
+    # 업데이트된 일정 목록을 다시 파일에 저장
+    with open(SCHEDULE_PATH, "w", encoding="utf-8") as file:
+        json.dump(new_schedules, file, ensure_ascii=False, indent=4)
+
+    return JSONResponse(content={"message": "일정이 삭제되었습니다!"}, status_code=200)
