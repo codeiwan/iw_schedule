@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
       recordingStatus.classList.add("recording");
       
       // STT 결과를 빈 상태로 설정
-    sttResult.textContent = "";
+      sttResult.textContent = "";
     
       startRecordingButton.disabled = true;
       stopRecordingButton.disabled = false;
@@ -129,6 +129,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // STT 분석 요청
   analyzeRecordingButton.addEventListener('click', async () => {
     try {
+      recordingStatus.textContent = "분석 중...";
+      startRecordingButton.disabled = true;
+      analyzeRecordingButton.disabled = true;
+      analyzeRecordingButton.classList.remove("active");
+
       const response = await fetch('/stt_llm', { method: 'POST' });
       const data = await response.json();
 
@@ -157,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } catch (error) {
       console.error("STT 분석 오류", error);
+      startRecordingButton.disabled = false;
       sttResult.textContent = "분석 실패!";
     }
   });
@@ -218,6 +224,10 @@ document.addEventListener("DOMContentLoaded", function () {
       cancelRecordingButton.disabled = true;
       analyzeRecordingButton.disabled = true;
       recordingModal.style.display = 'none';
+      // 일정 등록 모달 숨기기
+      document.getElementById('scheduleForm').style.display = 'none';
+      // 녹음 컨트롤 모달 표시하기
+      document.getElementById('recordingControls').style.display = 'block';
     } catch (error) {
       console.error('일정 추가 중 오류 발생:', error);
     }
